@@ -35,7 +35,7 @@ namespace Quinton
         public List<GameObject> GoodDudes;
         public List<GameObject> BadDudes;
 
-        string LastMessage;
+        public string LastMessage;
 
 
         public FieldInfo(ref List<GameObject> gdudes, ref List<GameObject> bdudes, string msg)
