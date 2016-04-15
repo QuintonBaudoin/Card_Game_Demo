@@ -68,7 +68,7 @@ public class HandInfoWindow : EditorWindow
 
            
             List<ICard> hand = Players[i].hand;
-            MonoBehaviour.print(hand.Count);
+            
             GUILayout.Label("Mystery",EditorStyles.boldLabel);
             foreach (ICard c in hand)
             {
