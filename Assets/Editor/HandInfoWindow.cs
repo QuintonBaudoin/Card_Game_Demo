@@ -11,24 +11,29 @@ using Character;
 
 public class HandInfoWindow : EditorWindow
 {
-
+    /// <summary>
+    /// List of all the players (Updated each OnGui)
+    /// </summary>
     private static List<Player> Players = new List<Player>();
-
-    private static EditorWindow window;
-
+   
+    /// <summary>
+    /// Initiates the Editor Window
+    /// </summary>
     [MenuItem("QuintonTools/ViewHands")]
     public static void OpenWindow()
     {
-        window = GetWindow(typeof(HandInfoWindow));
-
-
-
-
+        GetWindow(typeof(HandInfoWindow));
+        
     }
 
-
+    /// <summary>
+    /// used to keep track of the previous position of each ScrollView's in the window
+    /// </summary>
     static List<Vector2> scrolls = new List<Vector2>();
 
+    /// <summary>
+    /// Initializes the UI of the window
+    /// </summary>
     void InitWindowUI()
     {
         if (scrolls.Count < Players.Count)
@@ -47,15 +52,19 @@ public class HandInfoWindow : EditorWindow
 
     }
 
+    /// <summary>
+    /// Updates UI
+    /// </summary>
     void UpdateUI()
     {
+        GUILayout.Label("Player Info", EditorStyles.largeLabel);
         if (Players.Count <= 0)
         {
-            window.Close();
-            throw new System.Exception("Missing Players");
+            GUILayout.Label("No Players found", EditorStyles.largeLabel);
+            return;
 
         }
-        GUILayout.Label("Player Info", EditorStyles.largeLabel);
+
 
         for (int i = 0; i < Players.Count; i++)
         {
@@ -66,37 +75,26 @@ public class HandInfoWindow : EditorWindow
             GUILayout.Label(Players[i].name, EditorStyles.boldLabel);
             GUILayout.Label("Hand", EditorStyles.boldLabel);
 
-           
+
             List<ICard> hand = Players[i].hand;
-            
-            GUILayout.Label("Mystery",EditorStyles.boldLabel);
+
+            GUILayout.Label("Mystery", EditorStyles.boldLabel);
             foreach (ICard c in hand)
             {
-                if(c.ToString() == "MysteryCard")
-                {
-                    MysteryCard m = c as MysteryCard;
-
+                MysteryCard m = c as MysteryCard;
+                if (m != null)
                     GUILayout.Label(m.Name + " : " + m.Description + " | " + "Power: " + m.Power + " | " + "Reward: " + m.Reward, EditorStyles.label);
-
-                }
-
-
             }
             GUILayout.Label("Treasure", EditorStyles.boldLabel);
 
             foreach (ICard c in hand)
             {
-                
-                if (c.ToString() == "TreasureCard")
-                {
-                    TreasureCard t = c as TreasureCard;
-
+                TreasureCard t = c as TreasureCard;
+                if (t != null)
                     GUILayout.Label(t.Name + " : " + t.Description + " | " + "Power: " + t.Power + " | " + "Gold: " + t.Gold);
-                }
-
             }
 
-           
+
             GUILayout.Label("-------------------------------------------------------------------------", EditorStyles.boldLabel);
 
             List<GameObject> cards = Players[i].cards;
@@ -107,9 +105,7 @@ public class HandInfoWindow : EditorWindow
                 if (c.GetComponent<MysteryCardMono>() != null)
                 {
                     MysteryCardMono m = c.GetComponent<MysteryCardMono>();
-
                     GUILayout.Label(m.Name + " : " + m.Description + " | " + "Power: " + m.Power + " | " + "Reward: " + m.Reward, EditorStyles.label);
-
                 }
 
 
@@ -122,7 +118,6 @@ public class HandInfoWindow : EditorWindow
                 if (c.GetComponent<TreasureCardMono>() != null)
                 {
                     TreasureCardMono t = c.GetComponent<TreasureCardMono>();
-
                     GUILayout.Label(t.Name + " : " + t.Description + " | " + "Power: " + t.Power + " | " + "Gold: " + t.Gold);
                 }
             }
@@ -134,7 +129,9 @@ public class HandInfoWindow : EditorWindow
         }
 
     }
-
+    /// <summary>
+    /// Unity's Update for the window and its GUI
+    /// </summary>
     void OnGUI()
     {
         Players.Clear();
@@ -143,7 +140,7 @@ public class HandInfoWindow : EditorWindow
             Players.Add(plr);
         InitWindowUI();
 
-        window = GetWindow(typeof(HandInfoWindow));
+       // window = GetWindow(typeof(HandInfoWindow));
 
 
         UpdateUI();
