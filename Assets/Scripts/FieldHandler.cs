@@ -42,10 +42,9 @@ namespace Quinton
         {
             GoodDudes = gdudes;
             BadDudes = bdudes;
-
-            LastMessage = msg;
-
-        }
+            LastMessage = msg; 
+         
+        }       
 
     }
 
@@ -174,29 +173,24 @@ namespace Quinton
             int BadDudesPower = 0;
             string resolveMessage;
 
-
             if (GoodDudes.Count <= 0 || BadDudes.Count <= 0)
                 throw new Exception("Missing Cards: " + "GoodDudesCount: " + GoodDudes.Count + " BadDudesCount: " + BadDudes.Count);
-
-
+            
             foreach (GameObject go in GoodDudes)
                 if (go.GetComponent<MysteryCardMono>() != null)
                     GoodDudesPower += go.GetComponent<MysteryCardMono>().Power;
             foreach (GameObject go in BadDudes)
                 if (go.GetComponent<MysteryCardMono>() != null)
                     BadDudesPower += go.GetComponent<MysteryCardMono>().Power;
-
-
-
-
-
+            
             if (GoodDudesPower > BadDudesPower)
                 resolveMessage = "GoodDudesWin";
             else
                 resolveMessage = "BadDudesWin";
+
             m_LastMessage = resolveMessage;
 
-            return new ResolutionInfo("resolveMessage");
+            return new ResolutionInfo(resolveMessage);
         }
 
         /// <summary>
